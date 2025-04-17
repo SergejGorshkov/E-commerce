@@ -47,8 +47,7 @@ if __name__ == "__main__":
                          [product4])
 
     print(category2.name)  # Телевизоры
-    print(
-        category2.description)  # Современный телевизор, который позволяет наслаждаться просмотром, станет вашим
+    print(category2.description)  # Современный телевизор, который позволяет наслаждаться просмотром, станет вашим
     # другом и помощником
     print(len(category2.products))  # 1
     print(category2.products)  # [...class Product object]
