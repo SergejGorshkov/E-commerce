@@ -1,9 +1,11 @@
 import os
-from pprint import pprint
 
 from src.category import Category
 from src.product import Product
-from src.utils import create_objects_from_json, read_json_file
+
+# from pprint import pprint
+
+# from src.utils import create_objects_from_json, read_json_file
 
 PATH = os.path.join(os.path.dirname(__file__), "data", "products.json")  # Путь к JSON-файлу
 
@@ -17,7 +19,6 @@ if __name__ == "__main__":
                          "функций для удобства жизни",
                          [product1, product2, product3])
 
-
     print(category1.products)  # Список из строк ['Samsung Galaxy S23 Ultra, 180000.0 руб. Остаток: 5 шт.\n', ...]
     print(category1.product_count)  # 3
     product4 = Product("55\" QLED 4K", "Фоновая подсветка", 123000.0, 7)
@@ -29,8 +30,8 @@ if __name__ == "__main__":
         {"name": "Samsung Galaxy S23 Ultra", "description": "256GB, Серый цвет, 200MP камера", "price": 185000.0,
          "quantity": 5}, category1)
 
-    #Т.к. товар new_same_product уже есть в указанной категории, объект был создан пустым. При этом были изменены атрибуты
-    # уже имеющегося товара (количество, цена (при необходимости))
+    # Т.к. товар new_same_product уже есть в указанной категории, объект был создан пустым. При этом были изменены
+    # атрибуты уже имеющегося товара (количество, цена (при необходимости))
     print(new_same_product.name)  # None
     print(new_same_product.description)  # None
     print(new_same_product.price)  # None

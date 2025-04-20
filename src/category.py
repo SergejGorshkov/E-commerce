@@ -21,7 +21,7 @@ class Category:
         # на длину списка товаров, если он существует. Если список пустой, тогда он не увеличивается
 
     def add_product(self, new_product):
-        """Метод для добавления в список продуктов нового товара"""
+        """Метод для добавления в список товаров нового товара класса Product"""
         if new_product:
             self.__products.append(new_product)
             Category.product_count += 1
