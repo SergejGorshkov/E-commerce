@@ -12,56 +12,46 @@ if __name__ == "__main__":
     product2 = Product("Iphone 15", "512GB, Gray space", 210000.0, 8)
     product3 = Product("Xiaomi Redmi Note 11", "1024GB, Синий", 31000.0, 14)
 
-    print(product1.name)  # Samsung Galaxy S23 Ultra
-    print(product1.description)  # 256GB, Серый цвет, 200MP камера
-    print(product1.price)  # 180000.0
-    print(product1.quantity)  # 5
-
-    print(product2.name)  # Iphone 15
-    print(product2.description)  # 512GB, Gray space
-    print(product2.price)  # 210000.0
-    print(product2.quantity)  # 8
-
-    print(product3.name)  # Xiaomi Redmi Note 11
-    print(product3.description)  # 1024GB, Синий
-    print(product3.price)  # 31000.0
-    print(product3.quantity)  # 14
-
     category1 = Category("Смартфоны",
                          "Смартфоны, как средство не только коммуникации, но и получения дополнительных "
                          "функций для удобства жизни",
                          [product1, product2, product3])
 
-    print(category1.name == "Смартфоны")  # True
-    print(
-        category1.description)  # Смартфоны, как средство не только коммуникации, но и получения дополнительных функций
-    # для удобства жизни
-    print(len(category1.products))  # 3
-    print(category1.category_count)  # 1
+
+    print(category1.products)  # Список из строк ['Samsung Galaxy S23 Ultra, 180000.0 руб. Остаток: 5 шт.\n', ...]
     print(category1.product_count)  # 3
-
     product4 = Product("55\" QLED 4K", "Фоновая подсветка", 123000.0, 7)
-    category2 = Category("Телевизоры",
-                         "Современный телевизор, который позволяет наслаждаться просмотром, станет вашим "
-                         "другом и помощником",
-                         [product4])
+    category1.add_product(product4)  # Добавление нового товара в категорию `category1`
+    print(category1.products)  # Т.к. есть геттер `products` в `category.py`, можем вывести приватный список продуктов
+    print(category1.product_count)  # 4
 
-    print(category2.name)  # Телевизоры
-    print(category2.description)  # Современный телевизор, который позволяет наслаждаться просмотром, станет вашим
-    # другом и помощником
-    print(len(category2.products))  # 1
-    print(category2.products)  # [...class Product object]
+    new_same_product = Product.new_product(
+        {"name": "Samsung Galaxy S23 Ultra", "description": "256GB, Серый цвет, 200MP камера", "price": 185000.0,
+         "quantity": 5}, category1)
 
-    print(Category.category_count)  # 2
-    print(Category.product_count)  # 4
+    #Т.к. товар new_same_product уже есть в указанной категории, объект был создан пустым. При этом были изменены атрибуты
+    # уже имеющегося товара (количество, цена (при необходимости))
+    print(new_same_product.name)  # None
+    print(new_same_product.description)  # None
+    print(new_same_product.price)  # None
+    print(new_same_product.quantity)  # None
+    print(product1.quantity)  # 10 (кол-во товара увеличилось)
+    print(product1.price)  # 185000.0 (цена товара увеличилась)
 
-    raw_data = read_json_file(PATH)
-    pprint(raw_data)
+    new_product = Product.new_product(
+        {"name": "Samsung Galaxy A25", "description": "256GB, Серый цвет, 200MP камера", "price": 28000.0,
+         "quantity": 3}, category1)
 
-    categories_data = create_objects_from_json(raw_data)
-    print(categories_data)
+    # Т.к. товара new_product еще нет в указанной категории, объект был создан с переданными параметрами
+    print(new_product.name)  # Samsung Galaxy A25
+    print(new_product.description)  # 256GB, Серый цвет, 200MP камера
+    print(new_product.price)  # 28000.0
+    print(new_product.quantity)  # 3
 
-    print(categories_data[0].name)
-    print(categories_data[0].products)
-    print(categories_data[1].name)
-    print(categories_data[1].products)
+    new_product.price = 800  # Задаем новую меньшую цену
+    print(new_product.price)  # 800
+
+    new_product.price = -100  # Цена не должна быть нулевая или отрицательная
+    print(new_product.price)  # 800
+    new_product.price = 0  # Цена не должна быть нулевая или отрицательная
+    print(new_product.price)  # 800
