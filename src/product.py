@@ -25,8 +25,8 @@ class Product:
         price = new_product_dict.get("price")
         quantity = new_product_dict.get("quantity")
 
-        for product in category_name._products:  # Цикл перебора строк с описанием имеющихся в данной категории товаров
-            if name == product.name:  # Если название нового товара есть в строке с описанием текущего товара...
+        for product in category_name._products:  # Цикл перебора списка с описанием имеющихся в данной категории товаров
+            if name == product.name:  # Если название нового товара есть в списке с описанием текущего товара...
                 product.quantity += quantity  # Количество текущего товара увеличивается на количество нового товара
                 if price > product.price:  # Если цена нового товара больше цены имеющегося...
                     product.price = price  # цена имеющегося товара изменяется на большую
