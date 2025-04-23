@@ -1,3 +1,6 @@
+from src.category import Category
+from src.product import Product
+
 
 def test_product_init(some_product):
     """Тест инициализации класса Product"""
@@ -5,3 +8,32 @@ def test_product_init(some_product):
     assert some_product.description == "Телефон - легенда"
     assert some_product.price == 1000.0
     assert some_product.quantity == 10
+
+
+def test_new_product_classmethod_if_new(first_category):
+    """Тест на корректную работу классметода new_product, если товар новый"""
+    new_data = {"name": "Samsung Galaxy S23 Ultra", "description": "256GB, Серый цвет, 200MP камера",
+                "price": 185000.0,
+                "quantity": 5}
+    new_product = Product.new_product(new_data, first_category)
+    assert new_product.name == "Samsung Galaxy S23 Ultra"
+    assert new_product.description == "256GB, Серый цвет, 200MP камера"
+    assert new_product.price == 185000.0
+    assert new_product.quantity == 5
+
+
+def test_new_product_classmethod_if_exist(some_product):
+    """Тест на корректную работу классметода new_product, если такой товар уже есть"""
+    new_data = {"name": "Motorola", "description": "Телефон - легенда", "price": 1500.0, "quantity": 3}
+
+    test_category = Category(name="Смартфоны",
+                             description="Смартфоны - это весело и удобно!",
+                             products=[some_product])
+    new_same_product = Product.new_product(new_data, test_category)
+
+    assert new_same_product.name is None
+    assert new_same_product.description is None
+    assert new_same_product.price is None
+    assert new_same_product.quantity is None
+    assert some_product.quantity == 13  # Кол-во товара увеличилось на 3
+    assert some_product.price == 1500.0  # Цена товара заменилась на большее значение new_data["price"]
