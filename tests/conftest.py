@@ -2,6 +2,7 @@ import pytest
 
 from src.category import Category
 from src.product import Product
+from src.product_iterator import ProductIterator
 
 
 @pytest.fixture
@@ -12,6 +13,17 @@ def some_product():
         description="Телефон - легенда",
         price=1000.0,
         quantity=10,
+    )
+
+
+@pytest.fixture
+def some_product_2():
+    """Фикстура для товара"""
+    return Product(
+        name="Iphone 15",
+        description="Телефон для подчеркивания статуса",
+        price=100000.0,
+        quantity=5,
     )
 
 
@@ -69,3 +81,9 @@ def mock_read_json_file():
             ]
         }
     ]
+
+
+@pytest.fixture
+def product_iterator(first_category):
+    """Фикстура с готовым итератором для категории `first_category` (данные - из фикстуры first_category)"""
+    return ProductIterator(first_category)
