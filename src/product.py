@@ -8,13 +8,24 @@ class Product:
     new_product: dict  # данные для добавления нового товара (ключи словаря соответствуют параметрам конструктора)
     new_price: float
 
-    def __init__(self, name, description, price, quantity):
+    def __init__(self, name, description, price, quantity) -> None:
         """Конструктор для инициализации нового объекта класса Product"""
 
         self.name = name
         self.description = description
         self.__price = price
         self.quantity = quantity
+
+    def __add__(self, other) -> float:
+        """
+        Метод для получения полной стоимости товаров класса Product
+        (сумма произведений стоимости товаров на их количество)
+        """
+        return self.__price * self.quantity + other.__price * other.quantity
+
+    def __str__(self) -> str:
+        """Строковое представление экземпляра класса Product"""
+        return f"{self.name}, {self.__price} руб. Остаток: {self.quantity} шт."
 
     @classmethod
     def new_product(cls, new_product_dict, category_name):
@@ -25,7 +36,7 @@ class Product:
         price = new_product_dict.get("price")
         quantity = new_product_dict.get("quantity")
 
-        for product in category_name._products:  # Цикл перебора списка с описанием имеющихся в данной категории товаров
+        for product in category_name._products:  # Цикл перебора списка с описанием товаров из данной категории
             if name == product.name:  # Если название нового товара есть в списке с описанием текущего товара...
                 product.quantity += quantity  # Количество текущего товара увеличивается на количество нового товара
                 if price > product.price:  # Если цена нового товара больше цены имеющегося...
@@ -41,12 +52,12 @@ class Product:
         # с переданными параметрами
 
     @property
-    def price(self):
+    def price(self) -> float:
         """Геттер. Возвращает значение приватного атрибута - цена товара"""
         return self.__price
 
     @price.setter
-    def price(self, new_price):
+    def price(self, new_price) -> float:
         """
         Сеттер. Изменяет значение приватного атрибута - цена товара.
         Если новая цена больше текущей, меняется на новую.

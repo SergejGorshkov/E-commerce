@@ -13,7 +13,7 @@ class Category:
     category_count = 0
     product_count = 0
 
-    def __init__(self, name, description, products=None):
+    def __init__(self, name, description, products=None) -> None:
         """Конструктор для инициализации нового объекта класса Category"""
         self.name = name
         self.description = description
@@ -23,19 +23,25 @@ class Category:
         Category.product_count += len(products) if products else 0  # Счетчик количества товаров будет увеличиваться
         # на длину списка товаров, если он существует. Если список пустой, тогда он не увеличивается
 
-    def add_product(self, new_product):
+    def __str__(self) -> str:
+        """Строковое представление экземпляра класса Category"""
+        sum_quantity = 0
+        for product in self.__products:  # Перебор товаров в категории и суммирование их количества
+            sum_quantity += product.quantity
+        return f"{self.name}, количество продуктов: {sum_quantity} шт."
+
+    def add_product(self, new_product) -> None:
         """Метод для добавления в список товаров нового товара класса Product"""
         if new_product and isinstance(new_product, Product):
             self.__products.append(new_product)
             Category.product_count += 1
 
     @property
-    def products(self):
+    def products(self) -> list[str]:
         """Геттер. Построчно выводит список товаров в виде строк"""
-        return [f"{product.name}, {product.price} руб. Остаток: {product.quantity} шт.\n" for product in
-                self.__products]
+        return [f"{str(product)}\n" for product in self.__products]
 
     @property
-    def _products(self):
+    def _products(self) -> list[Product]:
         """Геттер. Выводит список товаров в категории в виде списка"""
         return [product for product in self.__products]

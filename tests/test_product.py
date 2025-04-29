@@ -37,3 +37,15 @@ def test_new_product_classmethod_if_exist(some_product):
     assert new_same_product.quantity is None
     assert some_product.quantity == 13  # Кол-во товара увеличилось на 3
     assert some_product.price == 1500.0  # Цена товара заменилась на большее значение new_data["price"]
+
+
+def test_product_str(some_product):
+    """Тест на строковое представление объектов класса Product (с использованием фикстуры some_product)"""
+    # Вызов метода __str__ из класса Product для отображения информации об экземпляре класса
+    assert str(some_product) == "Motorola, 1000.0 руб. Остаток: 10 шт."
+
+
+def test_product_add(some_product, some_product_2):
+    """Тест на определение суммарной стоимости товаров с использованием фикстур для двух объектов класса Product"""
+    # Вызов метода __add__ из класса Product для суммирования стоимости товаров экземпляров класса
+    assert some_product + some_product_2 == 510000.0
