@@ -1,3 +1,5 @@
+import pytest
+
 from src.category import Category
 from src.product import Product
 
@@ -45,7 +47,13 @@ def test_product_str(some_product):
     assert str(some_product) == "Motorola, 1000.0 руб. Остаток: 10 шт."
 
 
-def test_product_add(some_product, some_product_2):
+def test_product_add_success(some_product, some_product_2):
     """Тест на определение суммарной стоимости товаров с использованием фикстур для двух объектов класса Product"""
     # Вызов метода __add__ из класса Product для суммирования стоимости товаров экземпляров класса
     assert some_product + some_product_2 == 510000.0
+
+
+def test_product_add_other_class(some_product):
+    """Тест на корректную работу метода `__add__`, если новый объект другого класса"""
+    with pytest.raises(TypeError):
+        some_product + 1
