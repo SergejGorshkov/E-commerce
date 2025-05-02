@@ -32,9 +32,8 @@ def test_add_product_success(first_category):
 def test_add_product_empty_new_product(first_category):
     """Тест на корректную работу метода `add_product`, если новый объект пустой"""
     test_product = None
-    first_category.add_product(test_product)
-    assert first_category.products == ['Motorola, 1000.0 руб. Остаток: 10 шт.\n',
-                                       'Samsung, 2000.0 руб. Остаток: 5 шт.\n']
+    with pytest.raises(TypeError):
+        first_category.add_product(test_product)
 
 
 def test_category_str(second_category):

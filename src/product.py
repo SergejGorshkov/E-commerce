@@ -21,7 +21,9 @@ class Product:
         Метод для получения полной стоимости товаров класса Product
         (сумма произведений стоимости товаров на их количество)
         """
-        return self.__price * self.quantity + other.__price * other.quantity
+        if type(other) is Product:
+            return self.__price * self.quantity + other.__price * other.quantity
+        raise TypeError
 
     def __str__(self) -> str:
         """Строковое представление экземпляра класса Product"""
@@ -57,7 +59,7 @@ class Product:
         return self.__price
 
     @price.setter
-    def price(self, new_price) -> float:
+    def price(self, new_price) -> float | None:
         """
         Сеттер. Изменяет значение приватного атрибута - цена товара.
         Если новая цена больше текущей, меняется на новую.

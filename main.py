@@ -1,8 +1,10 @@
 import os
 
 from src.category import Category
-from src.product import Product
-from src.product_iterator import ProductIterator
+from src.product_lawngrass import LawnGrass
+# from src.product import Product
+# from src.product_iterator import ProductIterator
+from src.product_smartphone import Smartphone
 
 # from pprint import pprint
 
@@ -11,67 +13,86 @@ from src.product_iterator import ProductIterator
 PATH = os.path.join(os.path.dirname(__file__), "data", "products.json")  # Путь к JSON-файлу
 
 if __name__ == "__main__":
-    product1 = Product("Samsung Galaxy S23 Ultra", "256GB, Серый цвет, 200MP камера", 180000.0, 5)
-    product2 = Product("Iphone 15", "512GB, Gray space", 210000.0, 8)
-    product3 = Product("Xiaomi Redmi Note 11", "1024GB, Синий", 31000.0, 14)
+    smartphone1 = Smartphone("Samsung Galaxy S23 Ultra", "256GB, Серый цвет, 200MP камера", 180000.0, 5, 95.5,
+                             "S23 Ultra", 256, "Серый")
+    smartphone2 = Smartphone("Iphone 15", "512GB, Gray space", 210000.0, 8, 98.2, "15", 512, "Gray space")
+    smartphone3 = Smartphone("Xiaomi Redmi Note 11", "1024GB, Синий", 31000.0, 14, 90.3, "Note 11", 1024, "Синий")
 
-    print(str(product1))
-    print(str(product2))
-    print(str(product3))
+    print(smartphone1.name)  # Samsung Galaxy S23 Ultra
+    print(smartphone1.description)  # 256GB, Серый цвет, 200MP камера
+    print(smartphone1.price)  # 180000.0
+    print(smartphone1.quantity)  # 5
+    print(smartphone1.efficiency)  # 95.5
+    print(smartphone1.model)  # S23 Ultra
+    print(smartphone1.memory)  # 256
+    print(smartphone1.color)  # Серый
 
-    category1 = Category("Смартфоны",
-                         "Смартфоны, как средство не только коммуникации, но и получения дополнительных "
-                         "функций для удобства жизни",
-                         [product1, product2, product3])
+    print(smartphone2.name)  # Iphone 15
+    print(smartphone2.description)  # 512GB, Gray space
+    print(smartphone2.price)  # 210000.0
+    print(smartphone2.quantity)  # 8
+    print(smartphone2.efficiency)  # 98.2
+    print(smartphone2.model)  # 15
+    print(smartphone2.memory)  # 512
+    print(smartphone2.color)  # Gray space
 
-    print(str(category1))  # Смартфоны, количество продуктов: 27 шт.
-    print(category1.products)  # ['Samsung Galaxy S23 Ultra, 180000.0 руб. Остаток: 5 шт.\n',
-    # 'Iphone 15, 210000.0 руб. Остаток: 8 шт.\n', 'Xiaomi Redmi Note 11, 31000.0 руб. Остаток: 14 шт.\n']
+    print(smartphone3.name)
+    print(smartphone3.description)
+    print(smartphone3.price)
+    print(smartphone3.quantity)
+    print(smartphone3.efficiency)
+    print(smartphone3.model)
+    print(smartphone3.memory)
+    print(smartphone3.color)
 
-    print(product1 + product2)  # 2580000.0
-    print(product1 + product3)  # 1334000.0
-    print(product2 + product3)  # 2114000.0
+    print()  # Пустая строка
 
-    iterator = ProductIterator(category1)  # Создание итератора с товарами для категории `category1`
-    for product in iterator:  # Последовательно вызываются методы __iter__ и __next__ из класса ProductIterator
-        print(product)  # Т.к. для класса Product написан __str__, при выводе экземпляра класса возвращается строка,
-        # форма которой описана в методе __str__ класса Product
+    grass1 = LawnGrass("Газонная трава", "Элитная трава для газона", 500.0, 20, "Россия", "7 дней", "Зеленый")
+    grass2 = LawnGrass("Газонная трава 2", "Выносливая трава", 450.0, 15, "США", "5 дней", "Темно-зеленый")
 
-############################################################################################################
-# Ниже - проверки из предыдущих ДЗ. После завершения проекта удалить
+    print(grass1.name)  # Газонная трава
+    print(grass1.description)  # Элитная трава для газона
+    print(grass1.price)  # 500.0
+    print(grass1.quantity)  # 20
+    print(grass1.country)  # Россия
+    print(grass1.germination_period)  # 7 дней
+    print(grass1.color)  # Зеленый
 
-    # print(category1.products)  # Список из строк ['Samsung Galaxy S23 Ultra, 180000.0 руб. Остаток: 5 шт.\n', ...]
-    # print(category1.product_count)  # 3
-    # product4 = Product("55\" QLED 4K", "Фоновая подсветка", 123000.0, 7)
-    # category1.add_product(product4)  # Добавление нового товара в категорию `category1`
-    # print(category1.products)  # Т.к. есть геттер products в category.py, можем вывести приватный список продуктов
-    # print(category1.product_count)  # 4
-    #
-    # new_same_product = Product.new_product(
-    #     {"name": "Samsung Galaxy S23 Ultra", "description": "256GB, Серый цвет, 200MP камера", "price": 185000.0,
-    #      "quantity": 5}, category1)
-    #
-    # # Т.к. товар new_same_product уже есть в указанной категории, объект был создан пустым. При этом были изменены
-    # # атрибуты уже имеющегося товара (количество, цена (при необходимости))
-    # print(new_same_product.name)  # None
-    #
-    # print(product1.quantity)  # 10 (кол-во товара увеличилось)
-    # print(product1.price)  # 185000.0 (цена товара увеличилась)
-    #
-    # new_product = Product.new_product(
-    #     {"name": "Samsung Galaxy A25", "description": "256GB, Серый цвет, 200MP камера", "price": 28000.0,
-    #      "quantity": 3}, category1)
-    #
-    # # Т.к. товара new_product еще нет в указанной категории, объект был создан с переданными параметрами
-    # print(new_product.name)  # Samsung Galaxy A25
-    # print(new_product.description)  # 256GB, Серый цвет, 200MP камера
-    # print(new_product.price)  # 28000.0
-    # print(new_product.quantity)  # 3
-    #
-    # new_product.price = 800  # Задаем новую меньшую цену
-    # print(new_product.price)  # 800
-    #
-    # new_product.price = -100  # Цена не должна быть нулевая или отрицательная
-    # print(new_product.price)  # 800
-    # new_product.price = 0  # Цена не должна быть нулевая или отрицательная
-    # print(new_product.price)  # 800
+    print(grass2.name)  # Газонная трава 2
+    print(grass2.description)  # Выносливая трава
+    print(grass2.price)  # 450.0
+    print(grass2.quantity)  # 15
+    print(grass2.country)  # США
+    print(grass2.germination_period)  # 5 дней
+    print(grass2.color)  # Темно-зеленый
+
+    print()  # Пустая строка
+
+    smartphone_sum = smartphone1 + smartphone2
+    print(smartphone_sum)  # 2580000.0
+
+    grass_sum = grass1 + grass2
+    print(grass_sum)  # 16750.0
+
+    try:
+        invalid_sum = smartphone1 + grass1  # Возникла ошибка TypeError при попытке сложения
+    except TypeError:
+        print("Возникла ошибка TypeError при попытке сложения")
+    else:
+        print("Не возникла ошибка TypeError при попытке сложения")
+
+    category_smartphones = Category("Смартфоны", "Высокотехнологичные смартфоны", [smartphone1, smartphone2])
+    category_grass = Category("Газонная трава", "Различные виды газонной травы", [grass1, grass2])
+
+    category_smartphones.add_product(smartphone3)
+
+    print(category_smartphones.products)  # Список из трех смартфонов
+
+    print(Category.product_count)  # 5
+
+    try:
+        category_smartphones.add_product("Not a product")  # Возникла ошибка TypeError при добавлении не продукта
+    except TypeError:
+        print("Возникла ошибка TypeError при добавлении не продукта")
+    else:
+        print("Не возникла ошибка TypeError при добавлении не продукта")
