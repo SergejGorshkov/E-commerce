@@ -14,7 +14,7 @@ class Smartphone(Product):
 
     def __init__(self, name, description, price, quantity, efficiency, model, memory, color) -> None:
         """Конструктор для инициализации нового объекта класса Smartphone (дочернего класса от Product)"""
-        super().__init__(name, description, price, quantity)
+        super().__init__(name, description, price, quantity)  # Вызов __init__ у класса Product
 
         self.__price = price
         self.efficiency = efficiency

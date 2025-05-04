@@ -1,7 +1,8 @@
 from src.product import Product
+from src.base_order import BaseOrder
 
 
-class Category:
+class Category(BaseOrder):
     """Класс для создания категорий товаров"""
 
     name: str  # название категории товаров

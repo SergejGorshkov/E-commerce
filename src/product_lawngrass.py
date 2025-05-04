@@ -13,7 +13,7 @@ class LawnGrass(Product):
 
     def __init__(self, name, description, price, quantity, country, germination_period, color) -> None:
         """Конструктор для инициализации нового объекта класса LawnGrass (дочернего класса от Product)"""
-        super().__init__(name, description, price, quantity)
+        super().__init__(name, description, price, quantity)  # Вызов __init__ у класса Product
 
         self.__price = price
         self.country = country
