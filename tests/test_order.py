@@ -1,10 +1,15 @@
 import pytest
 from src.order import Order
+from src.exceptions import ZeroQuantityProduct
 
 
-def test_add_product_success(some_product):
+def test_add_product_success(capsys, some_product):
     """Тест на корректное получение информации о товаре в заказе (наименование, количество и итоговая стоимость)"""
-    assert Order.add_product(some_product, 2) == 'Товар в заказе: Motorola, количество: 2, итоговая стоимость: 2000.0.'
+    Order.add_product(some_product, 2)
+    message = capsys.readouterr()
+    assert message.out.strip().split("\n")[-2] == "Товар добавлен успешно"
+    assert message.out.strip().split("\n")[-1] == ("Товар в заказе: Motorola, количество: 2, итоговая стоимость: "
+                                                   "2000.0.")
 
 
 def test_add_product_if_other_class(first_category, some_product):
@@ -12,9 +17,9 @@ def test_add_product_if_other_class(first_category, some_product):
     количество товара"""
     with pytest.raises(TypeError):
         Order.add_product(first_category, 2)
-    with pytest.raises(TypeError):
+    with pytest.raises(ZeroQuantityProduct):
         Order.add_product(some_product, 0)
-    with pytest.raises(TypeError):
+    with pytest.raises(ZeroQuantityProduct):
         Order.add_product(some_product, -1)
     with pytest.raises(TypeError):
         Order.add_product(some_product, 1.5)

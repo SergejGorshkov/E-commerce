@@ -1,5 +1,6 @@
 from src.base_product import BaseProduct
 from src.print_mixin import PrintMixin
+from src.exceptions import ZeroQuantityProduct
 
 
 class Product(BaseProduct, PrintMixin):
@@ -18,7 +19,10 @@ class Product(BaseProduct, PrintMixin):
         self.name = name
         self.description = description
         self.__price = price
-        self.quantity = quantity
+        if isinstance(quantity, int) and quantity > 0:
+            self.quantity = quantity
+        else:
+            raise ZeroQuantityProduct("Товар с нулевым, дробным или отрицательным количеством не может быть добавлен")
         super().__init__()  # Вызов __init__ и __repr__ у миксина PrintMixin
 
     def __add__(self, other) -> float:
@@ -28,7 +32,7 @@ class Product(BaseProduct, PrintMixin):
         """
         if type(other) is Product:
             return self.__price * self.quantity + other.__price * other.quantity
-        raise TypeError
+        raise TypeError  # Вызов ошибки, если тип объекта не принадлежит классу Product
 
     def __str__(self) -> str:
         """Строковое представление экземпляра класса Product"""
@@ -37,7 +41,9 @@ class Product(BaseProduct, PrintMixin):
     @classmethod
     def new_product(cls, new_product_dict, category_name):
         """Класс-метод, который принимает на вход параметры товара в виде словаря, извлекает значения,
-        создает объект класса Product и возвращает его"""
+        создает объект класса Product и возвращает его в случае, если товара еще нет в указанной категории.
+        Если такой товар в категории уже есть, увеличивается его количество и изменяется цена, если цена переданного
+        товара больше, чем текущая."""
         name = new_product_dict.get("name")
         description = new_product_dict.get("description")
         price = new_product_dict.get("price")
@@ -50,13 +56,9 @@ class Product(BaseProduct, PrintMixin):
                     product.price = price  # цена имеющегося товара изменяется на большую
                 print(f"При попытке добавления нового товара '{name}' в указанной категории обнаружен аналогичный "
                       f"товар. Количество товаров в указанной категории было увеличено. Новый товар не был добавлен.")
-
-                return cls(name=None, description=None, price=None,
-                           quantity=None)  # Если товар уже есть, создается новый
-                # экземпляр класса Product с пустыми значениями (иначе при вызове атрибутов этого объекта будут ошибки)
-
-        return cls(name, description, price, quantity)  # Если товар новый, создается новый экземпляр класса Product
-        # с переданными параметрами
+        else:
+            return cls(name, description, price, quantity)  # Если товар новый, создается новый экземпляр класса
+            # Product с переданными параметрами
 
     @property
     def price(self) -> float:
