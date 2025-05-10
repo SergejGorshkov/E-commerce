@@ -2,6 +2,7 @@ import pytest
 
 from src.category import Category
 from src.product import Product
+from src.exceptions import ZeroQuantityProduct
 
 
 def test_product_init(some_product):
@@ -10,6 +11,18 @@ def test_product_init(some_product):
     assert some_product.description == "Телефон - легенда"
     assert some_product.price == 1000.0
     assert some_product.quantity == 10
+
+
+def test_product_init_zero_quantity():
+    """Тест инициализации класса Product, если передано неверное количество товара"""
+    with pytest.raises(ZeroQuantityProduct):
+        Product(name="Motorola", description="Телефон - легенда", price=1000.0, quantity=0)
+
+    with pytest.raises(ZeroQuantityProduct):
+        Product(name="Motorola", description="Телефон - легенда", price=1000.0, quantity=1.5)
+
+    with pytest.raises(ZeroQuantityProduct):
+        Product(name="Motorola", description="Телефон - легенда", price=1000.0, quantity="10")
 
 
 def test_new_product_classmethod_if_new(first_category):
@@ -24,19 +37,18 @@ def test_new_product_classmethod_if_new(first_category):
     assert new_product.quantity == 5
 
 
-def test_new_product_classmethod_if_exist(some_product):
+def test_new_product_classmethod_if_exist(capsys, some_product):
     """Тест на корректную работу классметода new_product, если такой товар уже есть"""
     new_data = {"name": "Motorola", "description": "Телефон - легенда", "price": 1500.0, "quantity": 3}
 
     test_category = Category(name="Смартфоны",
                              description="Смартфоны - это весело и удобно!",
                              products=[some_product])
-    new_same_product = Product.new_product(new_data, test_category)
+    Product.new_product(new_data, test_category)
+    message = capsys.readouterr()
+    assert ("При попытке добавления нового товара 'Motorola' в указанной категории обнаружен аналогичный товар. "
+            "Количество товаров в указанной категории было увеличено. Новый товар не был добавлен.") in message.out
 
-    assert new_same_product.name is None
-    assert new_same_product.description is None
-    assert new_same_product.price is None
-    assert new_same_product.quantity is None
     assert some_product.quantity == 13  # Кол-во товара увеличилось на 3
     assert some_product.price == 1500.0  # Цена товара заменилась на большее значение new_data["price"]
 

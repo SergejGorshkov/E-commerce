@@ -36,8 +36,9 @@ class Category(BaseOrder):
         if new_product and issubclass(type(new_product), Product):
             self.__products.append(new_product)
             Category.product_count += 1
-            return
-        raise TypeError
+            print("Товар добавлен успешно")
+        else:
+            raise TypeError("Попытка добавления несовместимого типа данных или пустого значения")
 
     @property
     def products(self) -> list[str]:
@@ -48,3 +49,10 @@ class Category(BaseOrder):
     def _products(self) -> list[Product]:
         """Геттер. Выводит список товаров в категории в виде списка"""
         return [product for product in self.__products]
+
+    def get_middle_price(self):
+        """Метод для подсчета средней цены всех товаров в категории"""
+        try:
+            return round(sum([product.price for product in self.__products]) / len(self.__products), 2)
+        except ZeroDivisionError:
+            return 0
