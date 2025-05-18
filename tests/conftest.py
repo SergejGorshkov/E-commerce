@@ -55,6 +55,16 @@ def second_category():
 
 
 @pytest.fixture
+def empty_category():
+    """Фикстура для категории товаров, не имеющая товаров"""
+    return Category(
+        name="Телевизоры",
+        description="Современный телевизор - ваш друг и помощник",
+        products=[]
+    )
+
+
+@pytest.fixture
 def mock_read_json_file():
     """Фикстура с тестовыми данными для чтения JSON-файла"""
     return [

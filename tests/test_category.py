@@ -57,3 +57,13 @@ def test_product_iterator(product_iterator):
 
     with pytest.raises(StopIteration):  # Проверка корректного завершения работы итератора
         next(product_iterator)
+
+
+def test_get_middle_price_success(first_category):
+    """Тест корректной работы метода `get_middle_price`"""
+    assert first_category.get_middle_price() == 1500.00
+
+
+def test_get_middle_price_error(empty_category):
+    """Тест работы метода `get_middle_price`, если в категории нет товаров"""
+    assert empty_category.get_middle_price() == 0

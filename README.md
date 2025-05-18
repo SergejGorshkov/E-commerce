@@ -63,7 +63,7 @@ git clone https://github.com/SergejGorshkov/E-commerce.git
 pip install -r requirements.txt
 
 ## Тестирование.
-Проект покрыт тестами pytest на 95%. Для их запуска и формирования отчета выполните команду:
+Проект покрыт тестами pytest на 96%. Для их запуска и формирования отчета выполните команду:
 
 pytest --cov=src --cov-report=html
 Отчет будет сгенерирован в папке htmlcov и храниться в файле с названием index.html.
